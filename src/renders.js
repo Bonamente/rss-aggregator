@@ -1,3 +1,5 @@
+import i18next from 'i18next';
+
 const buildFeedElement = (feed) => {
   const { feedTitle, feedDescription } = feed;
   return `<li class="list-group-item"><h3>${feedTitle}</h3><p>${feedDescription}</p></li>`;
@@ -20,7 +22,7 @@ export const renderFeeds = (state, elements) => {
   const feedsList = document.createElement('ul');
   const feedsListContent = feeds.map(buildFeedElement).join('');
 
-  feedsHeading.textContent = 'Фиды';
+  feedsHeading.textContent = i18next.t('headings.feeds');
   feedsList.classList.add('list-group', 'mb-5');
   feedsList.innerHTML = feedsListContent;
   feedsContainer.append(feedsHeading, feedsList);
@@ -36,7 +38,7 @@ export const renderPosts = (state, elements) => {
   const postsList = document.createElement('ul');
   const postsListContent = posts.map(buildPostElement).join('');
 
-  postsHeading.textContent = 'Посты';
+  postsHeading.textContent = i18next.t('headings.posts');
   postsList.classList.add('list-group');
   postsList.innerHTML = postsListContent;
   postsContainer.append(postsHeading, postsList);
@@ -44,14 +46,21 @@ export const renderPosts = (state, elements) => {
 
 export const renderErrors = (state, elements) => {
   const { error } = state.form;
-  const { inputElement, feedbackElement } = elements;
 
   if (!error) return;
 
-  if (error === 'mustBeValid' || error === 'alreadyExists') {
-    inputElement.classList.add('is-invalid');
-  }
-
+  const { inputElement, feedbackElement } = elements;
+  inputElement.classList.add('is-invalid');
   feedbackElement.classList.add('text-danger');
-  feedbackElement.textContent = error;
+  feedbackElement.textContent = i18next.t(`errors.${error}`);
+};
+
+export const renderProcessError = (state, elements) => {
+  const { processError } = state.form;
+
+  if (!processError) return;
+
+  const { feedbackElement } = elements;
+  feedbackElement.classList.add('text-danger');
+  feedbackElement.textContent = i18next.t(`errors.${processError}`);
 };

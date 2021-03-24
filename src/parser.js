@@ -4,7 +4,7 @@ const parse = (rssData) => {
   const parsedRssData = domParser.parseFromString(rssData, 'application/xml');
   const error = parsedRssData.querySelector('parsererror');
 
-  if (error) throw new Error('invalidRSS');
+  if (error) throw new Error('invalidRss');
 
   const feedTitleElement = parsedRssData.querySelector('channel > title');
   const feedDescriptionElement = parsedRssData.querySelector('channel > description');

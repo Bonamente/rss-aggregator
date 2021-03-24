@@ -1,5 +1,11 @@
 import onChange from 'on-change';
-import { renderFeeds, renderPosts, renderErrors } from './renders.js';
+import i18next from 'i18next';
+import {
+  renderFeeds,
+  renderPosts,
+  renderErrors,
+  renderProcessError,
+} from './renders.js';
 
 const processStateHandler = (processState, elements) => {
   const { inputElement, submitButton, feedbackElement } = elements;
@@ -18,7 +24,7 @@ const processStateHandler = (processState, elements) => {
       inputElement.classList.remove('is-invalid');
       feedbackElement.classList.remove('text-danger');
       feedbackElement.classList.add('text-success');
-      feedbackElement.textContent = 'RSS успешно загружен';
+      feedbackElement.textContent = i18next.t('success');
       break;
     case 'failed':
       submitButton.disabled = false;
@@ -33,6 +39,9 @@ const watch = (state, elements) => {
     switch (path) {
       case 'form.processState':
         processStateHandler(value, elements);
+        break;
+      case 'form.processError':
+        renderProcessError(state, elements);
         break;
       case 'form.error':
         renderErrors(state, elements);

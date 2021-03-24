@@ -1,12 +1,11 @@
 import * as yup from 'yup';
 
 yup.setLocale({
-  mixed: {
-    default: 'ValidationError',
-    notOneOf: 'alreadyExists',
-  },
   string: {
-    url: 'mustBeValid',
+    url: 'invalidUrl',
+  },
+  mixed: {
+    notOneOf: 'alreadyExists',
   },
 });
 
