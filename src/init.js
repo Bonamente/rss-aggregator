@@ -2,25 +2,27 @@
 import 'bootstrap';
 import axios from 'axios';
 import i18next from 'i18next';
-import { uniqueId } from 'lodash';
+import { differenceBy, find, uniqueId } from 'lodash';
 import en from './locales/en.js';
 import validate from './validator';
 import parse from './parser.js';
 import watch from './watcher.js';
 
+const requestInterval = 5000;
+
 const proxify = (url) => `https://hexlet-allorigins.herokuapp.com/get?url=${url}`;
 
 const loadRss = (url, state) => {
-  state.form.processState = 'sending';
+  state.form.processState = 'loading';
 
   axios.get(proxify(url), { params: { disableCache: 'true' } })
     .then(({ data }) => {
       const { feedTitle, feedDescription, postContents } = parse(data.contents);
       const feed = {
-        url,
         feedTitle,
         feedDescription,
         id: uniqueId(),
+        url,
       };
 
       const posts = postContents.map((item) => ({ ...item, feedId: feed.id, id: uniqueId() }));
@@ -40,6 +42,21 @@ const loadRss = (url, state) => {
       state.form.processState = 'failed';
       throw err;
     });
+};
+
+const updatePosts = (state) => {
+  const { feeds, posts } = state;
+  const feedsUrls = feeds.map((feed) => feed.url);
+  const promises = feedsUrls.map((url) => axios(proxify(url), { params: { disableCache: 'true' } })
+    .then(({ data }) => {
+      const { postContents } = parse(data.contents);
+      const feedId = find(feeds, ['url', url]).id;
+      const newPosts = differenceBy(postContents, posts, 'url').map((post) => ({ ...post, feedId, id: uniqueId() }));
+      state.posts.unshift(...newPosts);
+    })
+    .catch((err) => console.log(err)));
+
+  Promise.all(promises).finally(() => setTimeout(() => updatePosts(state), requestInterval));
 };
 
 export default () => {
@@ -73,7 +90,7 @@ export default () => {
 
     elements.form.addEventListener('submit', (e) => {
       e.preventDefault();
-      watchedState.form.processState = 'sending';
+      watchedState.form.processState = 'loading';
 
       const formData = new FormData(e.target);
       const url = formData.get('url');
@@ -88,5 +105,7 @@ export default () => {
         loadRss(url, watchedState);
       }
     });
+
+    setTimeout(() => updatePosts(watchedState), requestInterval);
   });
 };

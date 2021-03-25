@@ -8,14 +8,14 @@ import {
 } from './renders.js';
 
 const processStateHandler = (processState, elements) => {
-  const { inputElement, submitButton, feedbackElement } = elements;
+  const { feedbackElement, inputElement, submitButton } = elements;
 
   switch (processState) {
     case 'filling':
       submitButton.disabled = false;
       feedbackElement.textContent = '';
       break;
-    case 'sending':
+    case 'loading':
       submitButton.disabled = true;
       break;
     case 'finished':
