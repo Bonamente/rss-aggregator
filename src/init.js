@@ -3,8 +3,8 @@ import 'bootstrap';
 import axios from 'axios';
 import i18next from 'i18next';
 import { differenceBy, find, uniqueId } from 'lodash';
-import en from './locales/en.js';
-import validate from './validator';
+import resources from './locales';
+import validate from './validator.js';
 import parse from './parser.js';
 import watch from './watcher.js';
 
@@ -60,12 +60,12 @@ const updatePosts = (state) => {
 };
 
 export default () => {
+  const defaultLanguage = 'ru';
+
   i18next.init({
-    lng: 'en',
+    lng: defaultLanguage,
     debug: false,
-    resources: {
-      en,
-    },
+    resources,
   }).then(() => {
     const state = {
       form: {
@@ -90,6 +90,7 @@ export default () => {
       modalTitle: document.querySelector('#modal .modal-title'),
       modalBody: document.querySelector('#modal .modal-body'),
       modalLink: document.querySelector('#modal .full-article'),
+      modalClose: document.querySelector('#modal .modal-footer .btn-secondary'),
     };
 
     const watchedState = watch(state, elements);

@@ -13,7 +13,12 @@ const makePostViewed = (uiState, postId) => {
 };
 
 const showModal = (uiState, elements, posts, postId) => {
-  const { modalTitle, modalBody, modalLink } = elements;
+  const {
+    modalTitle,
+    modalBody,
+    modalLink,
+    modalClose,
+  } = elements;
 
   const post = posts.find((el) => el.id === postId);
   const { postTitle, postDescription, url } = post;
@@ -23,7 +28,8 @@ const showModal = (uiState, elements, posts, postId) => {
   modalTitle.textContent = postTitle;
   modalBody.textContent = postDescription;
   modalLink.setAttribute('href', url);
-  modalLink.setAttribute('target', '_blank');
+  modalLink.textContent = i18next.t('buttons.modalLink');
+  modalClose.textContent = i18next.t('buttons.modalClose');
 };
 
 const buildPostElement = (state, elements, post) => {
@@ -47,7 +53,7 @@ const buildPostElement = (state, elements, post) => {
   button.dataset.id = id;
   button.dataset.toggle = 'modal';
   button.dataset.target = '#modal';
-  button.textContent = 'Preview';
+  button.textContent = i18next.t('buttons.postPreview');
   button.addEventListener('click', () => showModal(uiState, elements, posts, id));
 
   if (viewedPosts.includes(id)) {

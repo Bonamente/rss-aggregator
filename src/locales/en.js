@@ -11,5 +11,10 @@ export default {
       feeds: 'Feeds',
       posts: 'Posts',
     },
+    buttons: {
+      postPreview: 'Preview',
+      modalLink: 'Read full post',
+      modalClose: 'Close',
+    },
   },
 };
