@@ -1,5 +1,5 @@
 import onChange from 'on-change';
-import i18next from 'i18next';
+import processStateHandler from './handler.js';
 import {
   renderFeeds,
   renderPosts,
@@ -7,50 +7,23 @@ import {
   renderProcessError,
 } from './renders.js';
 
-const processStateHandler = (processState, elements) => {
-  const { feedbackElement, inputElement, submitButton } = elements;
-
-  switch (processState) {
-    case 'filling':
-      submitButton.disabled = false;
-      feedbackElement.textContent = '';
-      break;
-    case 'loading':
-      submitButton.disabled = true;
-      break;
-    case 'finished':
-      submitButton.disabled = false;
-      inputElement.value = '';
-      inputElement.classList.remove('is-invalid');
-      feedbackElement.classList.remove('text-danger');
-      feedbackElement.classList.add('text-success');
-      feedbackElement.textContent = i18next.t('success');
-      break;
-    case 'failed':
-      submitButton.disabled = false;
-      break;
-    default:
-      throw new Error(`Unknown state: ${processState}`);
-  }
-};
-
-const watch = (state, elements) => {
+const watch = (state, elements, i18next) => {
   const watchedState = onChange(state, (path, value) => {
     switch (path) {
       case 'form.processState':
-        processStateHandler(value, elements);
+        processStateHandler(value, elements, i18next);
         break;
       case 'form.processError':
-        renderProcessError(state, elements);
+        renderProcessError(state, elements, i18next);
         break;
       case 'form.error':
-        renderErrors(state, elements);
+        renderErrors(state, elements, i18next);
         break;
       case 'feeds':
-        renderFeeds(state, elements);
+        renderFeeds(state, elements, i18next);
         break;
       case 'posts':
-        renderPosts(state, elements);
+        renderPosts(state, elements, i18next);
         break;
       default:
         break;

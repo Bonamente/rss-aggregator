@@ -1,5 +1,3 @@
-import i18next from 'i18next';
-
 const makePostViewed = (uiState, postId) => {
   const { viewedPosts } = uiState;
 
@@ -12,7 +10,7 @@ const makePostViewed = (uiState, postId) => {
   uiState.viewedPosts.push(postId);
 };
 
-const showModal = (uiState, elements, posts, postId) => {
+const showModal = (uiState, elements, posts, postId, i18next) => {
   const {
     modalTitle,
     modalBody,
@@ -32,7 +30,7 @@ const showModal = (uiState, elements, posts, postId) => {
   modalClose.textContent = i18next.t('buttons.modalClose');
 };
 
-const buildPostElement = (state, elements, post) => {
+const buildPostElement = (state, elements, post, i18next) => {
   const { uiState, posts } = state;
   const { viewedPosts } = uiState;
   const { postTitle, url, id } = post;
@@ -54,7 +52,7 @@ const buildPostElement = (state, elements, post) => {
   button.dataset.toggle = 'modal';
   button.dataset.target = '#modal';
   button.textContent = i18next.t('buttons.postPreview');
-  button.addEventListener('click', () => showModal(uiState, elements, posts, id));
+  button.addEventListener('click', () => showModal(uiState, elements, posts, id, i18next));
 
   if (viewedPosts.includes(id)) {
     link.classList.add('font-weight-normal');
@@ -84,7 +82,7 @@ const buildFeedElement = (feed) => {
   return feedElement;
 };
 
-export const renderFeeds = (state, elements) => {
+export const renderFeeds = (state, elements, i18next) => {
   const { feeds } = state;
   const { feedsContainer } = elements;
 
@@ -100,7 +98,7 @@ export const renderFeeds = (state, elements) => {
   feedsContainer.append(feedsHeading, feedsList);
 };
 
-export const renderPosts = (state, elements) => {
+export const renderPosts = (state, elements, i18next) => {
   const { posts } = state;
   const { postsContainer } = elements;
 
@@ -108,7 +106,7 @@ export const renderPosts = (state, elements) => {
 
   const postsHeading = document.createElement('h2');
   const postsList = document.createElement('ul');
-  const postsListContent = posts.map((post) => buildPostElement(state, elements, post));
+  const postsListContent = posts.map((post) => buildPostElement(state, elements, post, i18next));
 
   postsHeading.textContent = i18next.t('headings.posts');
   postsList.classList.add('list-group');
@@ -116,7 +114,7 @@ export const renderPosts = (state, elements) => {
   postsContainer.append(postsHeading, postsList);
 };
 
-export const renderErrors = (state, elements) => {
+export const renderErrors = (state, elements, i18next) => {
   const { error } = state.form;
 
   if (!error) return;
@@ -128,7 +126,7 @@ export const renderErrors = (state, elements) => {
   feedbackElement.textContent = i18next.t(`errors.${error}`);
 };
 
-export const renderProcessError = (state, elements) => {
+export const renderProcessError = (state, elements, i18next) => {
   const { processError } = state.form;
 
   if (!processError) return;
@@ -137,5 +135,4 @@ export const renderProcessError = (state, elements) => {
   feedbackElement.classList.remove('text-success');
   feedbackElement.classList.add('text-danger');
   feedbackElement.textContent = i18next.t('errors.networkError');
-  console.log(feedbackElement);
 };
