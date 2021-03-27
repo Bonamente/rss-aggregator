@@ -75,6 +75,9 @@ export default () => {
       },
       feeds: [],
       posts: [],
+      uiState: {
+        viewedPosts: [],
+      },
     };
 
     const elements = {
@@ -84,6 +87,9 @@ export default () => {
       feedbackElement: document.querySelector('.feedback'),
       feedsContainer: document.querySelector('.feeds'),
       postsContainer: document.querySelector('.posts'),
+      modalTitle: document.querySelector('#modal .modal-title'),
+      modalBody: document.querySelector('#modal .modal-body'),
+      modalLink: document.querySelector('#modal .full-article'),
     };
 
     const watchedState = watch(state, elements);

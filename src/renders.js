@@ -1,15 +1,81 @@
 import i18next from 'i18next';
 
-const buildFeedElement = (feed) => {
-  const { feedTitle, feedDescription } = feed;
-  return `<li class="list-group-item"><h3>${feedTitle}</h3><p>${feedDescription}</p></li>`;
+const makePostViewed = (uiState, postId) => {
+  const { viewedPosts } = uiState;
+
+  if (viewedPosts.includes(postId)) return;
+
+  const link = document.querySelector(`a[data-id="${postId}"]`);
+  link.classList.remove('font-weight-bold');
+  link.classList.add('font-weight-normal');
+
+  uiState.viewedPosts.push(postId);
 };
 
-const buildPostElement = (post) => {
+const showModal = (uiState, elements, posts, postId) => {
+  const { modalTitle, modalBody, modalLink } = elements;
+
+  const post = posts.find((el) => el.id === postId);
+  const { postTitle, postDescription, url } = post;
+
+  makePostViewed(uiState, postId);
+
+  modalTitle.textContent = postTitle;
+  modalBody.textContent = postDescription;
+  modalLink.setAttribute('href', url);
+  modalLink.setAttribute('target', '_blank');
+};
+
+const buildPostElement = (state, elements, post) => {
+  const { uiState, posts } = state;
+  const { viewedPosts } = uiState;
   const { postTitle, url, id } = post;
-  return `<li class="list-group-item d-flex justify-content-between align-items-start">
-    <a href="${url}" class="font-weight-bold" data-id="${id}" target="_blank" rel="noopener noreferrer">${postTitle}</a>    
-  </li>`;
+
+  const postElement = document.createElement('li');
+  const link = document.createElement('a');
+  const button = document.createElement('button');
+
+  link.setAttribute('href', url);
+  link.dataset.id = id;
+  link.setAttribute('target', '_blank');
+  link.setAttribute('rel', 'noopener noreferrer');
+  link.textContent = postTitle;
+  link.addEventListener('click', () => makePostViewed(uiState, id));
+
+  button.setAttribute('type', 'button');
+  button.classList.add('btn', 'btn-primary', 'btn-sm');
+  button.dataset.id = id;
+  button.dataset.toggle = 'modal';
+  button.dataset.target = '#modal';
+  button.textContent = 'Preview';
+  button.addEventListener('click', () => showModal(uiState, elements, posts, id));
+
+  if (viewedPosts.includes(id)) {
+    link.classList.add('font-weight-normal');
+  } else {
+    link.classList.add('font-weight-bold');
+  }
+
+  postElement.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start');
+  postElement.append(link, button);
+
+  return postElement;
+};
+
+const buildFeedElement = (feed) => {
+  const { feedTitle, feedDescription } = feed;
+
+  const feedElement = document.createElement('li');
+  const feedTitleElement = document.createElement('h3');
+  const feedDescriptionElement = document.createElement('p');
+
+  feedTitleElement.textContent = feedTitle;
+  feedDescriptionElement.textContent = feedDescription;
+
+  feedElement.classList.add('list-group-item');
+  feedElement.append(feedTitleElement, feedDescriptionElement);
+
+  return feedElement;
 };
 
 export const renderFeeds = (state, elements) => {
@@ -20,11 +86,11 @@ export const renderFeeds = (state, elements) => {
 
   const feedsHeading = document.createElement('h2');
   const feedsList = document.createElement('ul');
-  const feedsListContent = feeds.map(buildFeedElement).join('');
+  const feedsListContent = feeds.map(buildFeedElement);
 
   feedsHeading.textContent = i18next.t('headings.feeds');
   feedsList.classList.add('list-group', 'mb-5');
-  feedsList.innerHTML = feedsListContent;
+  feedsList.append(...feedsListContent);
   feedsContainer.append(feedsHeading, feedsList);
 };
 
@@ -36,11 +102,11 @@ export const renderPosts = (state, elements) => {
 
   const postsHeading = document.createElement('h2');
   const postsList = document.createElement('ul');
-  const postsListContent = posts.map(buildPostElement).join('');
+  const postsListContent = posts.map((post) => buildPostElement(state, elements, post));
 
   postsHeading.textContent = i18next.t('headings.posts');
   postsList.classList.add('list-group');
-  postsList.innerHTML = postsListContent;
+  postsList.append(...postsListContent);
   postsContainer.append(postsHeading, postsList);
 };
 

@@ -13,11 +13,13 @@ const parse = (rssData) => {
 
   const getPostContent = (item) => {
     const postTitleElement = item.querySelector('title');
+    const postDescriptionElement = item.querySelector('description');
     const postLinkElement = item.querySelector('link');
     const postTitle = postTitleElement.textContent;
+    const postDescription = postDescriptionElement.textContent;
     const url = postLinkElement.textContent;
 
-    return { postTitle, url };
+    return { postTitle, postDescription, url };
   };
 
   const postElements = parsedRssData.querySelectorAll('item');
