@@ -40,7 +40,6 @@ const loadRss = (url, state) => {
       }
 
       state.form.processState = 'failed';
-      throw err;
     });
 };
 
