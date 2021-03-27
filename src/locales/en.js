@@ -1,6 +1,6 @@
 export default {
   translation: {
-    success: 'RSS loaded successfully',
+    success: 'RSS has been loaded',
     errors: {
       alreadyExists: 'RSS already exists',
       invalidUrl: 'Link must be a valid URL',
