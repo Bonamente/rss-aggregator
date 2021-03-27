@@ -123,6 +123,7 @@ export const renderErrors = (state, elements) => {
 
   const { inputElement, feedbackElement } = elements;
   inputElement.classList.add('is-invalid');
+  feedbackElement.classList.remove('text-success');
   feedbackElement.classList.add('text-danger');
   feedbackElement.textContent = i18next.t(`errors.${error}`);
 };
@@ -133,6 +134,8 @@ export const renderProcessError = (state, elements) => {
   if (!processError) return;
 
   const { feedbackElement } = elements;
+  feedbackElement.classList.remove('text-success');
   feedbackElement.classList.add('text-danger');
   feedbackElement.textContent = i18next.t('errors.networkError');
+  console.log(feedbackElement);
 };
