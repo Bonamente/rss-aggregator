@@ -134,5 +134,5 @@ export const renderProcessError = (state, elements) => {
 
   const { feedbackElement } = elements;
   feedbackElement.classList.add('text-danger');
-  feedbackElement.textContent = i18next.t(`errors.${processError}`);
+  feedbackElement.textContent = i18next.t('errors.networkError');
 };
