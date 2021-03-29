@@ -1,3 +1,5 @@
+import { isEmpty, isNull } from 'lodash';
+
 const makePostViewed = (uiState, postId) => {
   const { viewedPosts } = uiState;
 
@@ -84,8 +86,10 @@ const buildFeedElement = (feed) => {
 
 export const renderFeeds = (state, elements, i18next) => {
   const { feeds } = state;
-  const { feedsContainer } = elements;
 
+  if (isEmpty(feeds)) return;
+
+  const { feedsContainer } = elements;
   feedsContainer.innerHTML = '';
 
   const feedsHeading = document.createElement('h2');
@@ -100,8 +104,10 @@ export const renderFeeds = (state, elements, i18next) => {
 
 export const renderPosts = (state, elements, i18next) => {
   const { posts } = state;
-  const { postsContainer } = elements;
 
+  if (isEmpty(posts)) return;
+
+  const { postsContainer } = elements;
   postsContainer.innerHTML = '';
 
   const postsHeading = document.createElement('h2');
@@ -117,11 +123,10 @@ export const renderPosts = (state, elements, i18next) => {
 export const renderErrors = (state, elements, i18next) => {
   const { error } = state.form;
 
-  if (!error) return;
+  if (isNull(error)) return;
 
   const { inputElement, feedbackElement } = elements;
   inputElement.classList.add('is-invalid');
-  feedbackElement.classList.remove('text-success');
   feedbackElement.classList.add('text-danger');
   feedbackElement.textContent = i18next.t(`errors.${error}`);
 };
@@ -129,10 +134,27 @@ export const renderErrors = (state, elements, i18next) => {
 export const renderProcessError = (state, elements, i18next) => {
   const { processError } = state.form;
 
-  if (!processError) return;
+  if (isNull(processError)) return;
 
   const { feedbackElement } = elements;
-  feedbackElement.classList.remove('text-success');
   feedbackElement.classList.add('text-danger');
   feedbackElement.textContent = i18next.t('errors.networkError');
+};
+
+export const renderCurLngVersion = (state, elements, i18next) => {
+  const {
+    mainHeading,
+    example,
+    lead,
+    lngToggler,
+    inputElement,
+    submitButton,
+  } = elements;
+
+  mainHeading.textContent = i18next.t('headings.main');
+  lead.textContent = i18next.t('lead');
+  lngToggler.textContent = state.lng;
+  inputElement.placeholder = i18next.t('form.inputPlaceholder');
+  submitButton.textContent = i18next.t('form.submitButton');
+  example.textContent = i18next.t('example');
 };

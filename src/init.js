@@ -2,7 +2,12 @@
 import 'bootstrap';
 import axios from 'axios';
 import i18next from 'i18next';
-import { differenceBy, find, uniqueId } from 'lodash';
+import {
+  differenceBy,
+  find,
+  isNull,
+  uniqueId,
+} from 'lodash';
 import parse from './parser.js';
 import resources from './locales';
 import validate from './validator.js';
@@ -61,7 +66,6 @@ const updatePosts = (state) => {
 
 export default () => {
   const defaultLanguage = 'ru';
-
   const i18nextInstance = i18next.createInstance();
 
   return i18nextInstance.init({
@@ -70,6 +74,7 @@ export default () => {
     resources,
   }).then(() => {
     const state = {
+      lng: defaultLanguage,
       form: {
         processState: 'filling',
         processError: null,
@@ -83,6 +88,11 @@ export default () => {
     };
 
     const elements = {
+      lngToggler: document.querySelector('#lngDropdownMenuButton'),
+      lngDropdownMenu: document.querySelector('#lngDropdownMenu'),
+      mainHeading: document.querySelector('h1.main-heading'),
+      example: document.querySelector('p.example-link'),
+      lead: document.querySelector('.lead'),
       form: document.querySelector('.rss-form'),
       inputElement: document.querySelector('.rss-form input'),
       submitButton: document.querySelector('.rss-form button'),
@@ -97,6 +107,10 @@ export default () => {
 
     const watchedState = watch(state, elements, i18nextInstance);
 
+    elements.lngDropdownMenu.addEventListener('click', (e) => {
+      watchedState.lng = e.target.textContent;
+    });
+
     elements.form.addEventListener('submit', (e) => {
       e.preventDefault();
       watchedState.form.processState = 'loading';
@@ -106,12 +120,12 @@ export default () => {
 
       const validationError = validate(url, watchedState.feeds);
 
-      if (validationError) {
-        watchedState.form.processState = 'failed';
-        watchedState.form.error = validationError;
-      } else {
+      if (isNull(validationError)) {
         watchedState.form.error = null;
         loadRss(url, watchedState);
+      } else {
+        watchedState.form.processState = 'failed';
+        watchedState.form.error = validationError;
       }
     });
 

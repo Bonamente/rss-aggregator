@@ -1,4 +1,4 @@
-const processStateHandler = (processState, elements, i18next) => {
+const processStateHandler = (processState, elements) => {
   const { feedbackElement, inputElement, submitButton } = elements;
   switch (processState) {
     case 'filling':
@@ -15,9 +15,8 @@ const processStateHandler = (processState, elements, i18next) => {
       submitButton.disabled = false;
       inputElement.value = '';
       inputElement.classList.remove('is-invalid');
+      feedbackElement.textContent = '';
       feedbackElement.classList.remove('text-danger');
-      feedbackElement.classList.add('text-success');
-      feedbackElement.textContent = i18next.t('success');
       break;
     case 'failed':
       inputElement.readOnly = false;
