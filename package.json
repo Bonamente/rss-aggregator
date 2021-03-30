@@ -1,7 +1,7 @@
 {
-  "name": "@hexlet/code",
+  "name": "rss-aggregator",
   "version": "1.5.0",
-  "description": "RSS aggregator",
+  "description": "service for aggregating RSS feeds",
   "main": "src/init.js",
   "scripts": {
     "test": "npx -n --experimental-vm-modules -n --no-warnings jest --no-warnings"
