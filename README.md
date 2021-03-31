@@ -3,7 +3,7 @@
 
 # RSS Aggregator 
 
-<a href="https://frontend-project-lvl3-n5tbs3vae-bonamente.vercel.app" target="_blank" rel="noopener noreferrer">RSS aggregator</a> is a service for aggregating RSS feeds, with the help of which it is convenient to read various sources, for example, blogs. It allows you to add an unlimited number of RSS feeds, update them and add new posts to the general feed.
+<a href="https://frontend-project-lvl3-lsnvrqjgi-bonamente.vercel.app" target="_blank" rel="noopener noreferrer">RSS aggregator</a> is a service for aggregating RSS feeds, with the help of which it is convenient to read various sources, for example, blogs. It allows you to add an unlimited number of RSS feeds, update them and add new posts to the general feed.
 
 ## Installation
 
