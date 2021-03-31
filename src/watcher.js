@@ -22,7 +22,7 @@ const watch = (state, elements, i18next) => {
           });
         break;
       case 'form.processState':
-        processStateHandler(value, elements);
+        processStateHandler(value, elements, i18next);
         break;
       case 'form.processError':
         renderProcessError(state, elements, i18next);

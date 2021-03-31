@@ -9,6 +9,7 @@ export default {
     form: {
       inputPlaceholder: 'ссылка RSS',
       submitButton: 'Добавить',
+      loading: 'Загружается...',
     },
     headings: {
       main: 'RSS агрегатор',

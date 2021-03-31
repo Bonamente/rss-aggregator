@@ -158,3 +158,9 @@ export const renderCurLngVersion = (state, elements, i18next) => {
   submitButton.textContent = i18next.t('form.submitButton');
   example.textContent = i18next.t('example');
 };
+
+export const renderLoadingSpinner = (elements, i18next) => {
+  const { submitButton } = elements;
+  submitButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  ${i18next.t('form.loading')}`;
+};

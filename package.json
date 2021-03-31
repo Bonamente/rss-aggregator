@@ -1,6 +1,6 @@
 {
   "name": "rss-aggregator",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "service for aggregating RSS feeds",
   "main": "src/init.js",
   "scripts": {
