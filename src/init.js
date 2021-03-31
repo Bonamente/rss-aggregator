@@ -13,7 +13,7 @@ import resources from './locales';
 import validate from './validator.js';
 import watch from './watcher.js';
 
-const requestInterval = 5000;
+const requestInterval = 300000;
 
 const proxify = (url) => `https://hexlet-allorigins.herokuapp.com/get?url=${url}`;
 
