@@ -15,7 +15,7 @@ import watch from './watcher.js';
 
 const requestInterval = 300000;
 
-const proxify = (url) => `https://hexlet-allorigins.herokuapp.com/get?url=${url}`;
+const proxify = (url) => `https://allorigins.hexlet.app/get?disableCache=true&url=${url}`;
 
 const loadRss = (url, state) => {
   state.form.processState = 'loading';
