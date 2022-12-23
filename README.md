@@ -13,7 +13,7 @@ A service for aggregating RSS feeds, with the help of which it is convenient to 
 ![Lodash](https://img.shields.io/badge/Lodash-3492FF.svg?style=for-the-badge&logo=Lodash&logoColor=white)
 ![Webpack](https://img.shields.io/badge/Webpack-8DD6F9.svg?style=for-the-badge&logo=Webpack&logoColor=black)
 ![Vercel](https://img.shields.io/badge/Vercel-000000.svg?style=for-the-badge&logo=Vercel&logoColor=white)
-<table style="border-spacing: 5px;"><tr><th valign="center">On-change</th><th valign="center">Yup</th></tr></table>
+<table><tr><th valign="center">On-change</th><th valign="center">Yup</th></tr></table>
 
 ### Preview
 ![RSS](https://user-images.githubusercontent.com/47517329/209334497-2e502dc4-2eff-4a18-882d-394191606044.gif)
