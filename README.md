@@ -13,6 +13,7 @@ A service for aggregating RSS feeds, with the help of which it is convenient to 
 ![Lodash](https://img.shields.io/badge/Lodash-3492FF.svg?style=for-the-badge&logo=Lodash&logoColor=white)
 ![Webpack](https://img.shields.io/badge/Webpack-8DD6F9.svg?style=for-the-badge&logo=Webpack&logoColor=black)
 ![Vercel](https://img.shields.io/badge/Vercel-000000.svg?style=for-the-badge&logo=Vercel&logoColor=white)
+<span valign="center">**On-change**</span>
 **On-change**
  **Yup**
  
